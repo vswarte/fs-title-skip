@@ -1,4 +1,4 @@
-use detour::static_detour;
+use retour::static_detour;
 
 use std::ops;
 use std::mem;
@@ -41,7 +41,7 @@ fn find_aob() -> usize {
     let size = text_section.end - text_section.start;
     let slice = unsafe { slice::from_raw_parts(text_section.start as *const u8, size) };
 
-    let pattern = scanner::Pattern::from_pattern_str(pattern)
+    let pattern = scanner::Pattern::from_byte_pattern(pattern)
         .expect("Could not create pattern from supplied string");
 
     let result = scanner::simple::scan(slice, &pattern)

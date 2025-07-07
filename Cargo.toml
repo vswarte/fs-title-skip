@@ -8,7 +8,7 @@ crate-type = ["cdylib"]
 
 [dependencies]
 broadsword = { git = "https://github.com/vswarte/broadsword.git" }
-detour = { git = "https://github.com/veeenu/detour-rs.git", branch = "master" }
+retour = { version = "0.3", features = ["static-detour"] }
 
 [profile.release]
 strip = true
