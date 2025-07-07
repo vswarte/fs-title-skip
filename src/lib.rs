@@ -52,6 +52,10 @@ fn find_aob() -> usize {
 }
 
 fn get_game_specification() -> Option<(ops::Range<usize>, &'static str)> {
+    if let Ok(text) = runtime::get_module_section_range("nightreign.exe", ".text") {
+        return Some((text, "48 0f be 01 48 8d 0d ?? ?? ?? ?? 48 ff 24 c1"));
+    }
+
     if let Ok(text) = runtime::get_module_section_range("armoredcore6.exe", ".text") {
         return Some((text, "48 0f be 01 48 8d 0d ?? ?? ?? ?? 48 03 c0 48 ff 24 c1"));
     }
