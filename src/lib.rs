@@ -1,4 +1,4 @@
-use detour::static_detour;
+use retour::static_detour;
 
 use std::ops;
 use std::mem;
@@ -41,7 +41,7 @@ fn find_aob() -> usize {
     let size = text_section.end - text_section.start;
     let slice = unsafe { slice::from_raw_parts(text_section.start as *const u8, size) };
 
-    let pattern = scanner::Pattern::from_pattern_str(pattern)
+    let pattern = scanner::Pattern::from_byte_pattern(pattern)
         .expect("Could not create pattern from supplied string");
 
     let result = scanner::simple::scan(slice, &pattern)
@@ -52,6 +52,10 @@ fn find_aob() -> usize {
 }
 
 fn get_game_specification() -> Option<(ops::Range<usize>, &'static str)> {
+    if let Ok(text) = runtime::get_module_section_range("nightreign.exe", ".text") {
+        return Some((text, "48 0f be 01 48 8d 0d ?? ?? ?? ?? 48 ff 24 c1"));
+    }
+
     if let Ok(text) = runtime::get_module_section_range("armoredcore6.exe", ".text") {
         return Some((text, "48 0f be 01 48 8d 0d ?? ?? ?? ?? 48 03 c0 48 ff 24 c1"));
     }
